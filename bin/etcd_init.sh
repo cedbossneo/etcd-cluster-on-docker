@@ -30,7 +30,7 @@ launch_etcd() {
     fi
 
     (
-        /bin/etcd --initial-cluster-token etcd-cluster -data-dir="$DATA_DIR" -initial-cluster-state $CLUSTER_STATE -listen-client-urls http://0.0.0.0:2379,http://0.0.0.0:4001 -advertise-client-urls http://$IP:2379  -listen-peer-urls http://$IP:2380,http://$IP:7001 -initial-advertise-peer-urls http://$IP:2380 -name "$APP_NAME-$ID" -initial-cluster "$INITIAL_CLUSTER"
+        /bin/etcd --initial-cluster-token etcd-cluster -data-dir="$DATA_DIR" -initial-cluster-state $CLUSTER_STATE -listen-client-urls http://0.0.0.0:2379 -advertise-client-urls http://$IP:2379  -listen-peer-urls http://$IP:2380 -initial-advertise-peer-urls http://$IP:2380 -name "$APP_NAME-$ID" -initial-cluster "$INITIAL_CLUSTER"
     ) &
 }
 
@@ -62,7 +62,7 @@ start_app() {
             launch_etcd "$MY_IP" "$ID" "$APP_DATA_DIR" "new"
         else
             echo "No seed node running.  Exiting."
-            sleep 180
+            sleep 2
             exit 1
         fi
     else
